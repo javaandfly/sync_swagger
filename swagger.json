@@ -1,0 +1,147 @@
+{
+    "swagger": "2.0",
+    "info": {
+        "description": "This is an API server for Satori invite. Use OpenAPI 2.0 specification.",
+        "title": "crawl data API",
+        "contact": {
+            "name": "dongzhi",
+            "email": "dongzhi@hepu.org"
+        },
+        "version": "1.6.0"
+    },
+    "paths": {
+        "/news_flash": {
+            "get": {
+                "description": "support OPTIONS http method, too",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "summary": "get news flash",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "timestamp 查询该时间戳之前的数据",
+                        "name": "timestamp",
+                        "in": "query",
+                        "required": true
+                    },
+                    {
+                        "type": "integer",
+                        "description": "pagination offset",
+                        "name": "offset",
+                        "in": "query",
+                        "required": true
+                    },
+                    {
+                        "type": "integer",
+                        "description": "pagination limit",
+                        "name": "limit",
+                        "in": "query",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "allOf": [
+                                {
+                                    "$ref": "#/definitions/common.Response"
+                                },
+                                {
+                                    "type": "object",
+                                    "properties": {
+                                        "data": {
+                                            "$ref": "#/definitions/api.GetNewsFlashRsp"
+                                        }
+                                    }
+                                }
+                            ]
+                        }
+                    },
+                    "400": {
+                        "description": "10001=\"param error",
+                        "schema": {
+                            "$ref": "#/definitions/common.Response"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/common.Response"
+                        }
+                    }
+                }
+            }
+        }
+    },
+    "definitions": {
+        "api.GetNewsFlashRsp": {
+            "type": "object",
+            "properties": {
+                "limit": {
+                    "description": "分页限制",
+                    "type": "integer"
+                },
+                "newsFlashData": {
+                    "description": "数据都网站上的一致",
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/dao.NewsFlashData"
+                    }
+                },
+                "offset": {
+                    "description": "分页偏移量",
+                    "type": "integer"
+                },
+                "total": {
+                    "description": "数据总个数",
+                    "type": "integer"
+                }
+            }
+        },
+        "common.Response": {
+            "type": "object",
+            "properties": {
+                "code": {
+                    "type": "integer"
+                },
+                "data": {},
+                "msg": {
+                    "type": "string"
+                }
+            }
+        },
+        "dao.NewsFlashData": {
+            "type": "object",
+            "properties": {
+                "id": {
+                    "type": "integer"
+                },
+                "news_flash_description": {
+                    "description": "快讯的内容",
+                    "type": "string"
+                },
+                "news_flash_id": {
+                    "description": "快讯的id",
+                    "type": "integer"
+                },
+                "news_flash_time": {
+                    "description": "快讯的时间",
+                    "type": "string"
+                },
+                "news_flash_title": {
+                    "description": "快讯的标题",
+                    "type": "string"
+                },
+                "news_flash_url": {
+                    "description": "快讯对应的url",
+                    "type": "string"
+                }
+            }
+        }
+    }
+}
